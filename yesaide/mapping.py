@@ -1,10 +1,8 @@
-# -*- coding: utf-8 -*-
 import inspect
-import six
 
 from voluptuous import Schema
 
-from zombase.database import MetaBase
+from yesaide.database import MetaBase
 
 
 def update(sqla_obj, schema, ignore_keys=None, **kwargs):
@@ -76,7 +74,7 @@ def resolve_id(build_query, a_dict, schema, allow_none_id=False):
     """
     _a_dict = a_dict.copy()
 
-    for key, sqla_map in six.iteritems(schema.schema):
+    for key, sqla_map in schema.schema.items():
         if key in _a_dict.keys():
             continue
 

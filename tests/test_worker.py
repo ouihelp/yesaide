@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
 import unittest
 
-from zombase import worker
+from yesaide import worker
 
 
 class FakeDbSession(object):

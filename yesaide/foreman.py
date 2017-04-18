@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-from zombase.worker import RawWorker
+from yesaide.worker import RawWorker
 
 
 class RawForeman(RawWorker):

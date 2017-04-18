@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
 import unittest
 
-from zombase import cli
+from yesaide import cli
 
 
 class TestCLI(unittest.TestCase):

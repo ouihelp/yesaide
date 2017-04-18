@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Validation utilities and extra schemas. Mostly built around
 voluptuous.
 
@@ -10,8 +9,6 @@ import re
 import uuid
 
 from voluptuous import Invalid, Required, Schema
-
-import six
 
 
 def is_valid_uuid(value):
@@ -215,7 +212,7 @@ class SchemaDictNone(Schema):
         _data = data.copy()
         popped = []
 
-        for k, v in six.iteritems(data):
+        for k, v in data.items():
             if v is None and k not in self._not_none:
                 _data.pop(k)
                 popped.append((k, v))

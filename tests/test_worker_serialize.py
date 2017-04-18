@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-from zombase import worker
+from yesaide import worker
 
 import test_worker
 

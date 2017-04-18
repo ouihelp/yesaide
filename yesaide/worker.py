@@ -1,7 +1,4 @@
-# -*- coding: utf-8 -*-
-import six
-
-from zombase.errors import ZombaseRuntimeError
+from yesaide import YesaideRuntimeError
 
 
 class RawWorker(object):
@@ -75,7 +72,7 @@ class MappingManagingWorker(SupervisedWorker):
             elif self._with_uuid:
                 query = query.filter(self._sqla_map.uuid == sqla_obj_id)
             else:
-                raise ZombaseRuntimeError('Can\'t determine id field.')
+                raise YesaideRuntimeError('Can\'t determine id field.')
 
             if options is None:
                 options = []
@@ -101,7 +98,7 @@ class MappingManagingWorker(SupervisedWorker):
             elif self._with_uuid:
                 sqla_obj_id_key = '{}_uuid'.format(self._sqla_map_name)
             else:
-                raise ZombaseRuntimeError('Can\'t determine id field.')
+                raise YesaideRuntimeError('Can\'t determine id field.')
 
             if sqla_obj_key in kwargs:
                 sqla_obj = kwargs[sqla_obj_key]
@@ -158,7 +155,7 @@ class MappingManagingWorker(SupervisedWorker):
         """
         serialized = self._serialize_one(item)
 
-        for key, function in six.iteritems(kwargs):
+        for key, function in kwargs.items():
             serialized[key] = function(item)
 
         return serialized

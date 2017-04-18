@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 import uuid
 
@@ -7,7 +6,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from voluptuous import Schema
 
-from zombase import database, foreman, mapping, worker
+from yesaide import database, foreman, mapping, worker
 
 
 Base = declarative_base(cls=database.MetaBase)

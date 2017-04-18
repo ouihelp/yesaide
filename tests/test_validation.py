@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
 import datetime
 import unittest
 import uuid
 
 from voluptuous import Schema, MultipleInvalid, Required, Invalid
 
-from zombase import validation
+from yesaide import validation
 
 
 class TestUUID(unittest.TestCase):

@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
 import voluptuous
 
-from zombase import mapping
+from yesaide import mapping
 
 import test_worker
 
