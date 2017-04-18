@@ -8,15 +8,22 @@ from yesaide import config
 class AbstractTestConfig(object):
 
     def test_common(self):
-
         self.assertEqual(self.a_config['KEY_ONE'], 'blaé')
-        self.assertEqual(self.a_config['KEY_TWO'], 12)
 
         with self.assertRaises(config.ConfigError):
             self.a_config['key_three']
 
         with self.assertRaises(config.ConfigError):
             self.a_config['KEY_FOUR']
+
+    def test_dict_interface(self):
+        self.assertEqual(self.a_config['KEY_ONE'], 'blaé')
+        self.assertEqual(self.a_config.get('KEY_ONE'), 'blaé')
+        self.assertEqual(self.a_config.get('KEY_THREE', 'no'), 'no')
+        self.assertEqual(self.a_config.get('KEY_FOUR'), None)
+
+    def test_with_integer(self):
+        self.assertEqual(self.a_config['KEY_TWO'], 12)
 
     def tearDown(self):
         del self.a_config
@@ -55,3 +62,29 @@ class TestFileConfig(unittest.TestCase, AbstractTestConfig):
         del self.a_config
         os.remove(self.test_file.name)
         del self.test_file
+
+
+class TestManualConfig(unittest.TestCase, AbstractTestConfig):
+
+    def setUp(self):
+        self.a_config = config.Config()
+
+        self.a_config['KEY_ONE'] = 'blaé'
+        self.a_config['KEY_TWO'] = 12
+
+    def tearDown(self):
+        del self.a_config
+
+
+class TestEnvConfig(unittest.TestCase, AbstractTestConfig):
+
+    def setUp(self):
+        os.environ['OH_KEY_ONE'] = 'blaé'
+
+        self.a_config = config.Config(env_prefix='OH_')
+
+    def test_with_integer(self):
+        pass
+
+    def tearDown(self):
+        del self.a_config

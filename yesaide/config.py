@@ -39,6 +39,12 @@ class Config(object):
     def __setitem__(self, name, value):
         self.set_values[name] = value
 
+    def get(self, name, default_value=None):
+        try:
+            return self.__getitem__(name)
+        except ConfigError:
+            return default_value
+
     def from_object(self, obj):
         for key in dir(obj):
             if key.isupper():
