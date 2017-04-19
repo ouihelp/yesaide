@@ -1,4 +1,4 @@
-import imp
+import importlib.machinery
 import os
 
 
@@ -51,9 +51,11 @@ class Config(object):
                 self.base_values[key] = getattr(obj, key)
 
     def from_pyfile(self, filename):
-        d = imp.new_module('config')
-        d.__file__ = filename
-        with open(filename, mode='rb') as config_file:
-            exec(compile(config_file.read(), filename, 'exec'), d.__dict__)
-
-        self.from_object(d)
+        spec = importlib.machinery.ModuleSpec(
+            'config',
+            importlib.machinery.SourceFileLoader('config', filename),
+            origin=filename,
+        )
+        config = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(config)
+        self.from_object(config)
