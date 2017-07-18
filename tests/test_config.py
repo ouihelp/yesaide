@@ -72,9 +72,6 @@ class TestManualConfig(unittest.TestCase, AbstractTestConfig):
         self.a_config['KEY_ONE'] = 'blaé'
         self.a_config['KEY_TWO'] = 12
 
-    def tearDown(self):
-        del self.a_config
-
 
 class TestEnvConfig(unittest.TestCase, AbstractTestConfig):
 
@@ -86,5 +83,24 @@ class TestEnvConfig(unittest.TestCase, AbstractTestConfig):
     def test_with_integer(self):
         pass
 
-    def tearDown(self):
-        del self.a_config
+
+class TestDefaultConfigRequired(unittest.TestCase, AbstractTestConfig):
+
+    def setUp(self):
+        class DummyObject(object):
+            pass
+
+        test_object = DummyObject()
+        setattr(test_object, 'KEY_ONE', 'blaé')
+        setattr(test_object, 'KEY_TWO', 12)
+        setattr(test_object, 'key_three', 'non_capital')
+        setattr(test_object, 'KEY_FIVE', config.Required())
+
+        self.a_config = config.Config(default_config=test_object)
+
+    def test_required_values(self):
+        self.assertFalse(self.a_config.is_valid())
+
+        self.a_config['KEY_FIVE'] = "foo"
+
+        self.assertTrue(self.a_config.is_valid())

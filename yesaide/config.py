@@ -7,17 +7,29 @@ class ConfigError(KeyError):
     """Exception thrown when the requested key does not exist."""
 
 
+class Required(object):
+    """Simple placeholder to use in default config to indicate that a
+    value has to be given for the config to be "valid"."""
+
+
 class Config(object):
     """Has a dict-like interface with some handy subtilities regarding
     config management.
 
     """
 
-    def __init__(self, env_prefix=None):
+    def __init__(self, *, default_config=None, env_prefix=None):
         self.env_prefix = env_prefix
 
         self.base_values = {}
         self.set_values = {}
+        self.required_values = []
+
+        if default_config:
+            self.required_values = self.from_object(
+                default_config,
+                unwrap_required=True,
+            )
 
     def __getitem__(self, name):
         try:
@@ -46,10 +58,21 @@ class Config(object):
         except ConfigError:
             return default_value
 
-    def from_object(self, obj):
+    def from_object(self, obj, *, unwrap_required=False):
+        rv = []
+
         for key in dir(obj):
             if key.isupper():
-                self.base_values[key] = getattr(obj, key)
+                v = getattr(obj, key)
+
+                if unwrap_required and isinstance(v, Required):
+                    rv.append(key)
+                    v = None
+
+                self.base_values[key] = v
+
+        if unwrap_required:
+            return rv
 
     def from_pyfile(self, filename):
         spec = importlib.machinery.ModuleSpec(
@@ -60,3 +83,9 @@ class Config(object):
         config = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(config)
         self.from_object(config)
+
+    def is_valid(self):
+        for key in self.required_values:
+            if self.get(key, None) is None:
+                return False
+        return True
