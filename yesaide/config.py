@@ -89,3 +89,10 @@ class Config(object):
             if self.get(key, None) is None:
                 return False
         return True
+
+    def missing_values(self):
+        rv = []
+        for key in self.required_values:
+            if self.get(key, None) is None:
+                rv.append(key)
+        return rv

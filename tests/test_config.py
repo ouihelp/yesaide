@@ -100,6 +100,7 @@ class TestDefaultConfigRequired(unittest.TestCase, AbstractTestConfig):
 
     def test_required_values(self):
         self.assertFalse(self.a_config.is_valid())
+        self.assertTrue(['KEY_FIVE'] == self.a_config.missing_values())
 
         self.a_config['KEY_FIVE'] = "foo"
 
