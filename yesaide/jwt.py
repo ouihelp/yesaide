@@ -31,7 +31,8 @@ def process_jwt_payload(payload, key):
         return JWT(
             key=key,
             jwt=payload,
-            check_claims={'exp': None},  # Weird syntax but it says "Check expiration time"
+            check_claims={'exp': None},  # Weird syntax but it says
+                                         # "Check expiration time"
             algs=[
                 'ES256', 'ES384', 'ES521',
                 'RS256', 'RS384', 'RS512',

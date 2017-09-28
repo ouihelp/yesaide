@@ -39,7 +39,7 @@ class Config(object):
 
         if self.env_prefix:
             try:
-                return os.environ[self.env_prefix+name]
+                return os.environ[self.env_prefix + name]
             except KeyError:
                 pass
 
