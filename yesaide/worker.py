@@ -39,13 +39,6 @@ class MappingManagingWorker(SupervisedWorker):
         self._with_id = id_type == 'id' or hasattr(self._sqla_map, 'id')
         self._with_uuid = id_type == 'uuid' or hasattr(self._sqla_map, 'uuid')
 
-    def _base_query(self, **kwargs):
-        """Subclasses can override this method to implement custom logic
-        (filtering inactive objects, security features, etc).
-
-        """
-        return self._dbsession.query(self._sqla_map)
-
     def _get(self, sqla_obj_id=None, sqla_obj=None, options=None, **kwargs):
         """Unified internal get for a SQLAlchemy object present in
         `sqla_obj_id` or `sqla_obj`, whose type is `self._sqla_map`.
@@ -111,9 +104,13 @@ class MappingManagingWorker(SupervisedWorker):
 
         return self._get(sqla_obj_id, sqla_obj, options, **kwargs)
 
-    def find(self, **kwargs):
-        """Return a query to fetch multiple objects."""
-        return self._base_query(**kwargs)
+    def base_query(self, **kwargs):
+        """Base sqlalchemy query for this kind of object
+
+        Subclasses can override this method to implement custom logic
+        (filtering inactive objects, security features, etc).
+        """
+        return self._dbsession.query(self._sqla_map)
 
     def serialize(self, items, **kwargs):
         """Transform the given list of `items` into an easily
