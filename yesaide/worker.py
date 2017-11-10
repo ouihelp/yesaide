@@ -58,7 +58,7 @@ class MappingManagingWorker(SupervisedWorker):
             return sqla_obj
 
         elif sqla_obj_id:
-            query = self._base_query(**kwargs)
+            query = self.base_query(**kwargs)
 
             if self._with_id:
                 query = query.filter(self._sqla_map.id == sqla_obj_id)
