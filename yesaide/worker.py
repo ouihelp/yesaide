@@ -113,16 +113,6 @@ class MappingManagingWorker(SupervisedWorker):
         return self._dbsession.query(self._sqla_map)
 
     def serialize(self, items, **kwargs):
-        """Transform the given list of `items` into an easily
-        serializable list.
-
-        Requires `self._serialize_one()` to be implemented. See
-        `self.serialize_one()` for informations about `kwargs`.
-
-        """
-        return [self.serialize_one(item, **kwargs) for item in items]
-
-    def _serialize_one(self, item):
         """Transform the given item into an easily serializable item.
 
         Most of the time it transforms a sqlalchemy mapped object into a
@@ -132,27 +122,5 @@ class MappingManagingWorker(SupervisedWorker):
 
             return {'id': item.id}
 
-        Subclasses must implement this method to enable
-        `self.serialize()` and `self.serialize_one()`.
-
         """
-        raise NotImplementedError('Subclasses must implement '
-                                  '`_serialize_one()`.')
-
-    def serialize_one(self, item, **kwargs):
-        """Leverage `self._serialize_one()` to provide a way to fully
-        serialize a single item.
-
-        Additional functions may be passed in `kwargs`, their results
-        will be added to the serialized object once they have been
-        executed with the item as single argument. Eg (with key=func):
-
-            result[key] = func(item)
-
-        """
-        serialized = self._serialize_one(item)
-
-        for key, function in kwargs.items():
-            serialized[key] = function(item)
-
-        return serialized
+        raise NotImplementedError('Subclasses must implement `serialize()`.')
