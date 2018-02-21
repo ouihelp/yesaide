@@ -44,3 +44,4 @@ Icon
 # Editors
 .idea
 *.iml
+.pytest_cache

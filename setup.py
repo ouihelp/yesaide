@@ -17,9 +17,10 @@ setup(
     packages=find_packages(),
     test_suite='tests',
     install_requires=[
-        'SQLAlchemy==1.1.15',
+        'SQLAlchemy==1.2.3',
         'voluptuous==0.10.5',
         'jwcrypto==0.4.2',
+        'python-dateutil==2.6.1',
     ],
     classifiers=[
         'Development Status :: 3 - Alpha',
