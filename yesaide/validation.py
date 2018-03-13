@@ -38,7 +38,7 @@ def Mail(empty_to_none=False, msg=None, lower=False):
             return None
 
         if not is_valid_mail(value):
-            raise Invalid(msg or ('Incorrect mail address.'))
+            raise Invalid(msg or ('Adresse email incorrecte'))
 
         if lower:
             return value.lower()
@@ -54,10 +54,10 @@ def Integeable(empty_to_none=False, cast=True, msg=None):
         try:
             casted_value = int(value)
         except (ValueError, TypeError):
-            raise Invalid(msg or 'Given value cannot be casted to int.')
+            raise Invalid(msg or 'Doit être un entier')
 
         if str(value) != str(casted_value):
-            raise Invalid(msg or 'Given value cannot be casted to int.')
+            raise Invalid(msg or 'Doit être un entier')
 
         if cast:
             return casted_value
@@ -73,10 +73,10 @@ def Floatable(empty_to_none=False, cast=True, nan_allowed=False, msg=None):
         try:
             casted_value = float(value)
         except (ValueError, TypeError):
-            raise Invalid(msg or 'Given value cannot be casted to float.')
+            raise Invalid(msg or 'Doit être un nombre décimal')
 
         if not nan_allowed and math.isnan(casted_value):
-            raise Invalid(msg or 'Given value is NaN.')
+            raise Invalid(msg or 'Ne peut pas être NaN.')
 
         if cast:
             return casted_value
@@ -96,10 +96,10 @@ def Decimable(empty_to_none=False, cast=True, nan_allowed=False, msg=None):
             else:
                 casted_value = decimal.Decimal(value)
         except decimal.InvalidOperation:
-            raise Invalid(msg or 'Given value cannot be casted to a decimal.')
+            raise Invalid(msg or 'Doit être un nombre décimal')
 
         if not nan_allowed and math.isnan(casted_value):
-            raise Invalid(msg or 'Given value is NaN.')
+            raise Invalid(msg or 'Ne peut pas être NaN.')
 
         if cast:
             return casted_value
@@ -132,8 +132,8 @@ def Dateable(empty_to_none=False, cast=True, format=None, msg=None):
 def Choice(in_list, msg=None):
     def f(value):
         if value not in in_list:
-            error_msg = 'Incorrect choice, expected one of the '\
-                        'following: "{}".'.format(', '.join(in_list))
+            error_msg = 'Choix incorrect, doit être un des éléments '\
+                        'suivants: "{}".'.format(', '.join(in_list))
             raise Invalid(msg or error_msg)
         return value
     return f
