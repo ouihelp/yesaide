@@ -19,7 +19,7 @@ setup(
     install_requires=[
         'SQLAlchemy>=1.2,<1.3',
         'voluptuous>=0.10,<0.11',
-        'jwcrypto==0.4.2',
+        'jwcrypto==0.5.0',
         'python-dateutil>=2,<3',
     ],
     classifiers=[
