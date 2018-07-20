@@ -9,7 +9,7 @@ with open(os.path.join(os.path.dirname(__file__), 'README.md')) as r_file:
 
 setup(
     name='yesaide',
-    version='1.4.2dev',
+    version='1.4.2',
     license='MIT',
     author='Ouihelp Tech',
     author_email='tech@ouihelp.fr',
