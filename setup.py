@@ -18,8 +18,8 @@ setup(
     test_suite='tests',
     install_requires=[
         'SQLAlchemy>=1.2,<1.3',
-        'voluptuous>=0.10,<0.11',
-        'jwcrypto==0.5.0',
+        'voluptuous>=0.11,<0.12',
+        'jwcrypto>=0.6,<0.7',
         'python-dateutil>=2,<3',
     ],
     classifiers=[
