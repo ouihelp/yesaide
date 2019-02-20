@@ -83,20 +83,14 @@ class TestWorkerIDs(unittest.TestCase):
     def test_init_forced(self):
         foreman = FakeForeman()
         a_worker = worker.MappingManagingWorker(
-            foreman,
-            managed_sqla_map=FakeMapping,
-            managed_sqla_map_name="fake",
-            id_type="uuid",
+            foreman, managed_sqla_map=FakeMapping, managed_sqla_map_name="fake", id_type="uuid"
         )
 
         self.assertTrue(a_worker._with_uuid)
         self.assertFalse(a_worker._with_id)
 
         a_second_worker = worker.MappingManagingWorker(
-            foreman,
-            managed_sqla_map=FakeMapping,
-            managed_sqla_map_name="fake",
-            id_type="id",
+            foreman, managed_sqla_map=FakeMapping, managed_sqla_map_name="fake", id_type="id"
         )
 
         self.assertTrue(a_second_worker._with_id)
@@ -104,8 +98,5 @@ class TestWorkerIDs(unittest.TestCase):
 
         with self.assertRaises(AttributeError):
             worker.MappingManagingWorker(
-                foreman,
-                managed_sqla_map=FakeMapping,
-                managed_sqla_map_name="fake",
-                id_type="wrong",
+                foreman, managed_sqla_map=FakeMapping, managed_sqla_map_name="fake", id_type="wrong"
             )

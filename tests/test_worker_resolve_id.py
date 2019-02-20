@@ -72,9 +72,7 @@ class TestWorkerResolveID(unittest.TestCase):
 
     def test_resolve_id_with_none(self):
         a_dict = {"mapping_id": None}
-        a_dict = mapping.resolve_id(
-            self.build_query, a_dict, schema=schema, allow_none_id=True
-        )
+        a_dict = mapping.resolve_id(self.build_query, a_dict, schema=schema, allow_none_id=True)
 
         self.assertEqual(a_dict["mapping"], None)
 

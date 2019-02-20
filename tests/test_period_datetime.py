@@ -24,9 +24,7 @@ def test_day():
     assert day_period.first_day == date(2017, 5, 5)
     assert day_period.last_day == date(2017, 5, 5)
 
-    day_period = Day.from_reference_datetime(
-        a_day_weird, tzinfo=gettz("America/Los_Angeles")
-    )
+    day_period = Day.from_reference_datetime(a_day_weird, tzinfo=gettz("America/Los_Angeles"))
 
     assert day_period.first_day == date(2017, 5, 4)
     assert day_period.last_day == date(2017, 5, 4)

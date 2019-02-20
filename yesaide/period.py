@@ -49,9 +49,7 @@ class Period(metaclass=ABCMeta):
         self.last_day = last_day
 
     @classmethod
-    def from_reference_datetime(
-        cls, reference_datetime, *, tzinfo=EUROPE_PARIS
-    ) -> "Period":
+    def from_reference_datetime(cls, reference_datetime, *, tzinfo=EUROPE_PARIS) -> "Period":
         """Return the period containing the given datetime in the given
         timezone.
 

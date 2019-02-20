@@ -136,9 +136,8 @@ def Dateable(empty_to_none=False, cast=True, format=None, msg=None):
 def Choice(in_list, msg=None):
     def f(value):
         if value not in in_list:
-            error_msg = (
-                "Incorrect choice, expected one of the "
-                'following: "{}".'.format(", ".join(in_list))
+            error_msg = "Incorrect choice, expected one of the " 'following: "{}".'.format(
+                ", ".join(in_list)
             )
             raise Invalid(msg or error_msg)
         return value
@@ -210,9 +209,7 @@ class SchemaDictNone(Schema):
 
     def __init__(self, schema, required=False, extra=False, not_none=False):
         if not isinstance(schema, dict):
-            raise ValueError(
-                "This special Schema is intented to be used with " "dict only."
-            )
+            raise ValueError("This special Schema is intented to be used with " "dict only.")
         Schema.__init__(self, schema, required, extra)
         self._not_none = not_none if not_none is not False else ()
 

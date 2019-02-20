@@ -59,9 +59,7 @@ class MappingManagingWorker(SupervisedWorker):
         """
         if sqla_obj:
             if not isinstance(sqla_obj, self._sqla_map):
-                raise ValueError(
-                    "`sqla_obj` doesn't match with the " "registered type."
-                )
+                raise ValueError("`sqla_obj` doesn't match with the " "registered type.")
             return sqla_obj
 
         elif sqla_obj_id:

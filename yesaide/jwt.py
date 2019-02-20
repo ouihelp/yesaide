@@ -33,17 +33,7 @@ def process_jwt_payload(payload, key):
             jwt=payload,
             check_claims={"exp": None},  # Weird syntax but it says
             # "Check expiration time"
-            algs=[
-                "ES256",
-                "ES384",
-                "ES521",
-                "RS256",
-                "RS384",
-                "RS512",
-                "PS256",
-                "PS384",
-                "PS512",
-            ],
+            algs=["ES256", "ES384", "ES521", "RS256", "RS384", "RS512", "PS256", "PS384", "PS512"],
         )
     except InvalidJWSObject:
         raise InvalidPayload()

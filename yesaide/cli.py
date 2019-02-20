@@ -19,9 +19,7 @@ def set_filename_version(filename, version_number, pattern):
         return before + version_number + after
 
     with open(filename) as f:
-        contents = re.sub(
-            r"^(\s*%s\s*=\s*')(.+?)(')(?sm)" % pattern, inject_version, f.read()
-        )
+        contents = re.sub(r"^(\s*%s\s*=\s*')(.+?)(')(?sm)" % pattern, inject_version, f.read())
 
     with open(filename, "w") as f:
         f.write(contents)
@@ -56,9 +54,7 @@ def compute_semver(current_version, release="normal", compute_dev=True):
 
     next_dev_version = None
     if compute_dev:
-        next_dev_version, _ = compute_semver(
-            release_version, release="minor", compute_dev=False
-        )
+        next_dev_version, _ = compute_semver(release_version, release="minor", compute_dev=False)
         next_dev_version = "{}dev".format(next_dev_version)
 
     return release_version, next_dev_version

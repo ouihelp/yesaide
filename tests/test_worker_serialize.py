@@ -16,9 +16,7 @@ class TestInvalidWorker(test_worker.BaseTestWorker):
     def test_invalid_worker(self):
         foreman = test_worker.FakeForeman()
         a_worker = InvalidWorker(
-            foreman,
-            managed_sqla_map=test_worker.FakeMapping,
-            managed_sqla_map_name="fake",
+            foreman, managed_sqla_map=test_worker.FakeMapping, managed_sqla_map_name="fake"
         )
 
         with self.assertRaises(NotImplementedError):
@@ -29,9 +27,7 @@ class TestSerialize(test_worker.BaseTestWorker):
     def setUp(self):
         foreman = test_worker.FakeForeman()
         self.a_worker = Worker(
-            foreman,
-            managed_sqla_map=test_worker.FakeMapping,
-            managed_sqla_map_name="fake",
+            foreman, managed_sqla_map=test_worker.FakeMapping, managed_sqla_map_name="fake"
         )
         test_worker.BaseTestWorker.setUp(self)
 

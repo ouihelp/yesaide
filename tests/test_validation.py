@@ -97,9 +97,7 @@ class TestIntegeable(unittest.TestCase):
 class TestDateable(unittest.TestCase):
     def test_simple_no_cast(self):
         schema = Schema(validation.Dateable())
-        self.assertEqual(
-            schema(datetime.date(2015, 11, 13)), datetime.date(2015, 11, 13)
-        )
+        self.assertEqual(schema(datetime.date(2015, 11, 13)), datetime.date(2015, 11, 13))
 
     def test_simple_cast(self):
         schema = Schema(validation.Dateable())
@@ -151,9 +149,7 @@ class TestAdaptDict(unittest.TestCase):
         self.assertEqual(output_dict, {"to_keep": "dummy", "to_make_required": "dummy"})
 
     def test_make_required(self):
-        output_dict = validation.adapt_dict(
-            self.input_dict, make_required=["to_make_required"]
-        )
+        output_dict = validation.adapt_dict(self.input_dict, make_required=["to_make_required"])
 
         def the_assert(output_dict):
             for key in output_dict:

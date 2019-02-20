@@ -26,9 +26,7 @@ class Config(object):
         self.required_values = []
 
         if default_config:
-            self.required_values = self.from_object(
-                default_config, unwrap_required=True
-            )
+            self.required_values = self.from_object(default_config, unwrap_required=True)
 
     def __getitem__(self, name):
         try:
@@ -45,9 +43,7 @@ class Config(object):
         try:
             return self.base_values[name]
         except KeyError:
-            raise ConfigError(
-                "The requested config value, {}, is not set.".format(name)
-            )
+            raise ConfigError("The requested config value, {}, is not set.".format(name))
 
     def __setitem__(self, name, value):
         self.set_values[name] = value
@@ -76,9 +72,7 @@ class Config(object):
 
     def from_pyfile(self, filename):
         spec = importlib.machinery.ModuleSpec(
-            "config",
-            importlib.machinery.SourceFileLoader("config", filename),
-            origin=filename,
+            "config", importlib.machinery.SourceFileLoader("config", filename), origin=filename
         )
         config = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(config)
