@@ -4,5 +4,6 @@ tox
 wheel
 setuptools
 click
+black
 
 -e .

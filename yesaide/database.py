@@ -22,11 +22,12 @@ def db_method(func):
     stored in self._dbsession`.
 
     """
+
     def wrapped_commit_func(self, *args, **kwargs):
         # Determine if we'll issue a commit or not. Remove 'commit'
         # from kwargs anyway.
-        commit = kwargs.pop('commit', True)
-        if getattr(self._dbsession, '_ya_in_transaction', False):
+        commit = kwargs.pop("commit", True)
+        if getattr(self._dbsession, "_ya_in_transaction", False):
             commit = False
 
         retval = func(self, *args, **kwargs)
@@ -52,7 +53,7 @@ class GUIDType(TypeDecorator):
     impl = CHAR
 
     def load_dialect_impl(self, dialect):
-        if dialect.name == 'postgresql':
+        if dialect.name == "postgresql":
             return dialect.type_descriptor(UUID())
         else:
             return dialect.type_descriptor(CHAR(32))
@@ -60,7 +61,7 @@ class GUIDType(TypeDecorator):
     def process_bind_param(self, value, dialect):
         if value is None:
             return value
-        elif dialect.name == 'postgresql':
+        elif dialect.name == "postgresql":
             return str(value)
         else:
             if not isinstance(value, uuid.UUID):

@@ -20,99 +20,102 @@ def is_valid_uuid(value):
     except ValueError:
         return False
 
-    return maybe_value.hex == value.replace('-', '').replace(' ', '')
+    return maybe_value.hex == value.replace("-", "").replace(" ", "")
 
 
-_mail_regexp = re.compile('[^@]+@[^@]+\.[^@]+')
+_mail_regexp = re.compile("[^@]+@[^@]+\.[^@]+")
 
 
 def is_valid_mail(raw_mail):
-    if re.match(_mail_regexp, raw_mail) and ' ' not in raw_mail:
+    if re.match(_mail_regexp, raw_mail) and " " not in raw_mail:
         return True
     return False
 
 
 def Mail(empty_to_none=False, msg=None, lower=False):
     def f(value):
-        if value in [None, ''] and empty_to_none:
+        if value in [None, ""] and empty_to_none:
             return None
 
         if not is_valid_mail(value):
-            raise Invalid(msg or ('Incorrect mail address.'))
+            raise Invalid(msg or ("Incorrect mail address."))
 
         if lower:
             return value.lower()
         return value
+
     return f
 
 
 def Integeable(empty_to_none=False, cast=True, msg=None):
     def f(value):
-        if value in [None, ''] and empty_to_none:
+        if value in [None, ""] and empty_to_none:
             return None
 
         try:
             casted_value = int(value)
         except (ValueError, TypeError):
-            raise Invalid(msg or 'Given value cannot be casted to int.')
+            raise Invalid(msg or "Given value cannot be casted to int.")
 
         if str(value) != str(casted_value):
-            raise Invalid(msg or 'Given value cannot be casted to int.')
+            raise Invalid(msg or "Given value cannot be casted to int.")
 
         if cast:
             return casted_value
         return value
+
     return f
 
 
 def Floatable(empty_to_none=False, cast=True, nan_allowed=False, msg=None):
     def f(value):
-        if value in [None, ''] and empty_to_none:
+        if value in [None, ""] and empty_to_none:
             return None
 
         try:
             casted_value = float(value)
         except (ValueError, TypeError):
-            raise Invalid(msg or 'Given value cannot be casted to float.')
+            raise Invalid(msg or "Given value cannot be casted to float.")
 
         if not nan_allowed and math.isnan(casted_value):
-            raise Invalid(msg or 'Given value is NaN.')
+            raise Invalid(msg or "Given value is NaN.")
 
         if cast:
             return casted_value
         return value
+
     return f
 
 
 def Decimable(empty_to_none=False, cast=True, nan_allowed=False, msg=None):
     def f(value):
-        if value in [None, ''] and empty_to_none:
+        if value in [None, ""] and empty_to_none:
             return None
 
         try:
             if isinstance(value, float):
-                casted_value = decimal.getcontext()\
-                    .create_decimal_from_float(value)
+                casted_value = decimal.getcontext().create_decimal_from_float(value)
             else:
                 casted_value = decimal.Decimal(value)
         except decimal.InvalidOperation:
-            raise Invalid(msg or 'Given value cannot be casted to a decimal.')
+            raise Invalid(msg or "Given value cannot be casted to a decimal.")
 
         if not nan_allowed and math.isnan(casted_value):
-            raise Invalid(msg or 'Given value is NaN.')
+            raise Invalid(msg or "Given value is NaN.")
 
         if cast:
             return casted_value
         return value
+
     return f
 
 
 def Dateable(empty_to_none=False, cast=True, format=None, msg=None):
     if format is None:
-        format = '%Y-%m-%d'
+        format = "%Y-%m-%d"
 
     def f(value):
-        if value in [None, ''] and empty_to_none:
+        if value in [None, ""] and empty_to_none:
             return None
 
         if isinstance(value, datetime.date):
@@ -121,21 +124,25 @@ def Dateable(empty_to_none=False, cast=True, format=None, msg=None):
         try:
             casted_value = datetime.datetime.strptime(value, format)
         except ValueError:
-            raise Invalid(msg or 'Given value cannot be casted to a date.')
+            raise Invalid(msg or "Given value cannot be casted to a date.")
 
         if cast:
             return casted_value.date()
         return value
+
     return f
 
 
 def Choice(in_list, msg=None):
     def f(value):
         if value not in in_list:
-            error_msg = 'Incorrect choice, expected one of the '\
-                        'following: "{}".'.format(', '.join(in_list))
+            error_msg = (
+                "Incorrect choice, expected one of the "
+                'following: "{}".'.format(", ".join(in_list))
+            )
             raise Invalid(msg or error_msg)
         return value
+
     return f
 
 
@@ -203,8 +210,9 @@ class SchemaDictNone(Schema):
 
     def __init__(self, schema, required=False, extra=False, not_none=False):
         if not isinstance(schema, dict):
-            raise ValueError('This special Schema is intented to be used with '
-                             'dict only.')
+            raise ValueError(
+                "This special Schema is intented to be used with " "dict only."
+            )
         Schema.__init__(self, schema, required, extra)
         self._not_none = not_none if not_none is not False else ()
 

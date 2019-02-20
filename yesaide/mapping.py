@@ -21,7 +21,7 @@ def update(sqla_obj, schema, ignore_keys=None, **kwargs):
 
     """
     if not isinstance(schema, Schema):
-        raise AttributeError('`schema` must be a voluptuous schema.')
+        raise AttributeError("`schema` must be a voluptuous schema.")
 
     if ignore_keys is None:
         ignore_keys = []
@@ -31,8 +31,7 @@ def update(sqla_obj, schema, ignore_keys=None, **kwargs):
     schema_keys = set([str(k) for k in schema.schema if k not in ignore_keys])
 
     obj_current_dict = {
-        k: getattr(sqla_obj, k) for k in schema_keys
-        if not getattr(sqla_obj, k) is None
+        k: getattr(sqla_obj, k) for k in schema_keys if not getattr(sqla_obj, k) is None
     }
     obj_update_dict = obj_current_dict.copy()
 
@@ -81,13 +80,15 @@ def resolve_id(build_query, a_dict, schema, allow_none_id=False):
         if not inspect.isclass(sqla_map) or not issubclass(sqla_map, MetaBase):
             continue
 
-        key_id = '{}_id'.format(key)
-        key_uuid = '{}_uuid'.format(key)
+        key_id = "{}_id".format(key)
+        key_uuid = "{}_uuid".format(key)
 
         if key_id in a_dict and key_uuid in a_dict:
-            raise Exception('`_resolve_id()` has been called with '
-                            'both an `object_id` and an '
-                            '`object_uuid`.')
+            raise Exception(
+                "`_resolve_id()` has been called with "
+                "both an `object_id` and an "
+                "`object_uuid`."
+            )
 
         elif key_id in a_dict:
             val_id = _a_dict.pop(key_id)
@@ -105,8 +106,7 @@ def resolve_id(build_query, a_dict, schema, allow_none_id=False):
                 val = None
 
             else:
-                val = build_query(sqla_map)\
-                    .filter(sqla_map.uuid == val_uuid).one()
+                val = build_query(sqla_map).filter(sqla_map.uuid == val_uuid).one()
 
             _a_dict[str(key)] = val
 

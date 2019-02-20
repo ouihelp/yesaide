@@ -16,7 +16,7 @@ class SupervisedWorker(RawWorker):
         RawWorker.__init__(self, foreman._dbsession)
 
         if not foreman_name:
-            foreman_name = '_foreman'
+            foreman_name = "_foreman"
 
         setattr(self, foreman_name, foreman)
 
@@ -27,17 +27,23 @@ class MappingManagingWorker(SupervisedWorker):
 
     """
 
-    def __init__(self, foreman=None, foreman_name=None, managed_sqla_map=None,
-                 managed_sqla_map_name=None, id_type=None):
+    def __init__(
+        self,
+        foreman=None,
+        foreman_name=None,
+        managed_sqla_map=None,
+        managed_sqla_map_name=None,
+        id_type=None,
+    ):
         SupervisedWorker.__init__(self, foreman, foreman_name)
 
         self._sqla_map = managed_sqla_map
         self._sqla_map_name = managed_sqla_map_name
 
-        if id_type and id_type not in ('id', 'uuid'):
-            raise AttributeError('Wrong `id_type`.')
-        self._with_id = id_type == 'id' or hasattr(self._sqla_map, 'id')
-        self._with_uuid = id_type == 'uuid' or hasattr(self._sqla_map, 'uuid')
+        if id_type and id_type not in ("id", "uuid"):
+            raise AttributeError("Wrong `id_type`.")
+        self._with_id = id_type == "id" or hasattr(self._sqla_map, "id")
+        self._with_uuid = id_type == "uuid" or hasattr(self._sqla_map, "uuid")
 
     def _get(self, sqla_obj_id=None, sqla_obj=None, options=None, **kwargs):
         """Unified internal get for a SQLAlchemy object present in
@@ -53,8 +59,9 @@ class MappingManagingWorker(SupervisedWorker):
         """
         if sqla_obj:
             if not isinstance(sqla_obj, self._sqla_map):
-                raise ValueError('`sqla_obj` doesn\'t match with the '
-                                 'registered type.')
+                raise ValueError(
+                    "`sqla_obj` doesn't match with the " "registered type."
+                )
             return sqla_obj
 
         elif sqla_obj_id:
@@ -65,14 +72,14 @@ class MappingManagingWorker(SupervisedWorker):
             elif self._with_uuid:
                 query = query.filter(self._sqla_map.uuid == sqla_obj_id)
             else:
-                raise YesaideRuntimeError('Can\'t determine id field.')
+                raise YesaideRuntimeError("Can't determine id field.")
 
             if options is None:
                 options = []
 
             return query.options(*options).one()
 
-        raise TypeError('No criteria provided.')
+        raise TypeError("No criteria provided.")
 
     def get(self, sqla_obj_id=None, sqla_obj=None, options=None, **kwargs):
         """Unified external get for an object present in `sqla_obj_id`
@@ -83,15 +90,15 @@ class MappingManagingWorker(SupervisedWorker):
         """
         if not sqla_obj_id and not sqla_obj:
             if not self._sqla_map_name:
-                raise TypeError('No criteria provided.')
+                raise TypeError("No criteria provided.")
 
-            sqla_obj_key = '{}'.format(self._sqla_map_name)
+            sqla_obj_key = "{}".format(self._sqla_map_name)
             if self._with_id:
-                sqla_obj_id_key = '{}_id'.format(self._sqla_map_name)
+                sqla_obj_id_key = "{}_id".format(self._sqla_map_name)
             elif self._with_uuid:
-                sqla_obj_id_key = '{}_uuid'.format(self._sqla_map_name)
+                sqla_obj_id_key = "{}_uuid".format(self._sqla_map_name)
             else:
-                raise YesaideRuntimeError('Can\'t determine id field.')
+                raise YesaideRuntimeError("Can't determine id field.")
 
             if sqla_obj_key in kwargs:
                 sqla_obj = kwargs[sqla_obj_key]
@@ -100,7 +107,7 @@ class MappingManagingWorker(SupervisedWorker):
                 sqla_obj_id = kwargs[sqla_obj_id_key]
 
             else:
-                raise TypeError('No criteria provided.')
+                raise TypeError("No criteria provided.")
 
         return self._get(sqla_obj_id, sqla_obj, options, **kwargs)
 
@@ -123,4 +130,4 @@ class MappingManagingWorker(SupervisedWorker):
             return {'id': item.id}
 
         """
-        raise NotImplementedError('Subclasses must implement `serialize()`.')
+        raise NotImplementedError("Subclasses must implement `serialize()`.")

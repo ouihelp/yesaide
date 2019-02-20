@@ -4,7 +4,6 @@ from yesaide import database, worker
 
 
 class TestDatabase(unittest.TestCase):
-
     class FakeDbSession(object):
         def __init__(self):
             self.has_been_committed = False
@@ -13,7 +12,6 @@ class TestDatabase(unittest.TestCase):
             self.has_been_committed = True
 
     class TestedWorker(worker.RawWorker):
-
         @database.db_method
         def fake_method(self):
             pass

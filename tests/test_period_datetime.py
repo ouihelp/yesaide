@@ -7,7 +7,7 @@ from dateutil.tz import gettz
 from yesaide.period import Day, Week, Month, PeriodError
 
 
-EUROPE_PARIS = gettz('Europe/Paris')
+EUROPE_PARIS = gettz("Europe/Paris")
 
 
 def test_day():
@@ -17,14 +17,16 @@ def test_day():
     assert day_period.start() == datetime(2017, 5, 4, tzinfo=EUROPE_PARIS)
     assert day_period.end() == datetime(2017, 5, 5, tzinfo=EUROPE_PARIS)
 
-    a_day_weird = datetime(2017, 5, 4, 20, tzinfo=gettz('America/Los_Angeles'))
+    a_day_weird = datetime(2017, 5, 4, 20, tzinfo=gettz("America/Los_Angeles"))
 
     day_period = Day.from_reference_datetime(a_day_weird)
 
     assert day_period.first_day == date(2017, 5, 5)
     assert day_period.last_day == date(2017, 5, 5)
 
-    day_period = Day.from_reference_datetime(a_day_weird, tzinfo=gettz('America/Los_Angeles'))
+    day_period = Day.from_reference_datetime(
+        a_day_weird, tzinfo=gettz("America/Los_Angeles")
+    )
 
     assert day_period.first_day == date(2017, 5, 4)
     assert day_period.last_day == date(2017, 5, 4)

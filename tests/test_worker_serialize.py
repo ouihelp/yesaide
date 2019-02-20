@@ -8,19 +8,17 @@ class InvalidWorker(worker.MappingManagingWorker):
 
 
 class Worker(worker.MappingManagingWorker):
-
     def serialize(self, item):
-        return {'a_prop': item.a_prop}
+        return {"a_prop": item.a_prop}
 
 
 class TestInvalidWorker(test_worker.BaseTestWorker):
-
     def test_invalid_worker(self):
         foreman = test_worker.FakeForeman()
         a_worker = InvalidWorker(
             foreman,
             managed_sqla_map=test_worker.FakeMapping,
-            managed_sqla_map_name='fake',
+            managed_sqla_map_name="fake",
         )
 
         with self.assertRaises(NotImplementedError):
@@ -28,13 +26,12 @@ class TestInvalidWorker(test_worker.BaseTestWorker):
 
 
 class TestSerialize(test_worker.BaseTestWorker):
-
     def setUp(self):
         foreman = test_worker.FakeForeman()
         self.a_worker = Worker(
             foreman,
             managed_sqla_map=test_worker.FakeMapping,
-            managed_sqla_map_name='fake',
+            managed_sqla_map_name="fake",
         )
         test_worker.BaseTestWorker.setUp(self)
 
@@ -47,4 +44,4 @@ class TestSerialize(test_worker.BaseTestWorker):
         serialized = self.a_worker.serialize(fake_item)
 
         self.assertTrue(isinstance(serialized, dict))
-        self.assertEqual(serialized['a_prop'], fake_item.a_prop)
+        self.assertEqual(serialized["a_prop"], fake_item.a_prop)

@@ -7,7 +7,7 @@ from dateutil.tz import gettz
 from yesaide.period import Day, Week, Month, PeriodError
 
 
-EUROPE_PARIS = gettz('Europe/Paris')
+EUROPE_PARIS = gettz("Europe/Paris")
 
 
 def test_day():
@@ -17,7 +17,9 @@ def test_day():
     assert day_period.first_day == a_day
     assert day_period.last_day == a_day
 
-    for i, d in enumerate(Day.iter_between_date(from_date=a_day, to_date=a_day + timedelta(days=10))):
+    for i, d in enumerate(
+        Day.iter_between_date(from_date=a_day, to_date=a_day + timedelta(days=10))
+    ):
         assert d.first_day == a_day + timedelta(days=i)
         assert d.last_day == a_day + timedelta(days=i)
 
@@ -35,8 +37,12 @@ def test_day():
     assert next_day.last_day == datetime.now(EUROPE_PARIS).date() + timedelta(days=1)
 
     previous_day = current_day.previous()
-    assert previous_day.first_day == datetime.now(EUROPE_PARIS).date() - timedelta(days=1)
-    assert previous_day.last_day == datetime.now(EUROPE_PARIS).date() - timedelta(days=1)
+    assert previous_day.first_day == datetime.now(EUROPE_PARIS).date() - timedelta(
+        days=1
+    )
+    assert previous_day.last_day == datetime.now(EUROPE_PARIS).date() - timedelta(
+        days=1
+    )
 
 
 def test_week():
@@ -55,7 +61,9 @@ def test_week():
         (date(2018, 3, 19), date(2018, 3, 25)),
     ]
 
-    weeks_output = list(Week.iter_between_date(from_date=a_day, to_date=date(2018, 3, 24)))
+    weeks_output = list(
+        Week.iter_between_date(from_date=a_day, to_date=date(2018, 3, 24))
+    )
 
     assert len(weeks_output) == len(weeks_theory)
 
@@ -82,7 +90,9 @@ def test_month():
         (date(2018, 5, 1), date(2018, 5, 31)),
     ]
 
-    months_output = list(Month.iter_between_date(from_date=a_day, to_date=date(2018, 5, 17)))
+    months_output = list(
+        Month.iter_between_date(from_date=a_day, to_date=date(2018, 5, 17))
+    )
 
     assert len(months_output) == len(months_theory)
 

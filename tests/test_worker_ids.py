@@ -19,7 +19,6 @@ class FakeDbSession(object):
 
 
 class FakeForeman(object):
-
     def __init__(self):
         self._dbsession = FakeDbSession(with_cache=True)
 
@@ -27,27 +26,26 @@ class FakeForeman(object):
 class FakeMapping(object):
 
     a_prop = 12
-    a_req_prop = 'bla'
+    a_req_prop = "bla"
 
 
 class FakeMappingWithID(object):
 
     a_prop = 12
-    a_req_prop = 'bla'
+    a_req_prop = "bla"
 
-    id = ''
+    id = ""
 
 
 class FakeMappingWithUUID(object):
 
     a_prop = 12
-    a_req_prop = 'bla'
+    a_req_prop = "bla"
 
-    uuid = 'bla'
+    uuid = "bla"
 
 
 class TestWorkerIDs(unittest.TestCase):
-
     def setUp(self):
         self.dbsession = FakeDbSession()
         self.foreman = FakeForeman()
@@ -58,9 +56,7 @@ class TestWorkerIDs(unittest.TestCase):
     def test_init_without_id_or_uuid(self):
         foreman = FakeForeman()
         a_worker = worker.MappingManagingWorker(
-            foreman,
-            managed_sqla_map=FakeMapping,
-            managed_sqla_map_name='fake',
+            foreman, managed_sqla_map=FakeMapping, managed_sqla_map_name="fake"
         )
 
         self.assertFalse(a_worker._with_id)
@@ -69,9 +65,7 @@ class TestWorkerIDs(unittest.TestCase):
     def test_init_with_id(self):
         foreman = FakeForeman()
         a_worker = worker.MappingManagingWorker(
-            foreman,
-            managed_sqla_map=FakeMappingWithID,
-            managed_sqla_map_name='fake',
+            foreman, managed_sqla_map=FakeMappingWithID, managed_sqla_map_name="fake"
         )
 
         self.assertTrue(a_worker._with_id)
@@ -80,9 +74,7 @@ class TestWorkerIDs(unittest.TestCase):
     def test_init_with_uuid(self):
         foreman = FakeForeman()
         a_worker = worker.MappingManagingWorker(
-            foreman,
-            managed_sqla_map=FakeMappingWithUUID,
-            managed_sqla_map_name='fake',
+            foreman, managed_sqla_map=FakeMappingWithUUID, managed_sqla_map_name="fake"
         )
 
         self.assertTrue(a_worker._with_uuid)
@@ -93,8 +85,8 @@ class TestWorkerIDs(unittest.TestCase):
         a_worker = worker.MappingManagingWorker(
             foreman,
             managed_sqla_map=FakeMapping,
-            managed_sqla_map_name='fake',
-            id_type='uuid',
+            managed_sqla_map_name="fake",
+            id_type="uuid",
         )
 
         self.assertTrue(a_worker._with_uuid)
@@ -103,8 +95,8 @@ class TestWorkerIDs(unittest.TestCase):
         a_second_worker = worker.MappingManagingWorker(
             foreman,
             managed_sqla_map=FakeMapping,
-            managed_sqla_map_name='fake',
-            id_type='id',
+            managed_sqla_map_name="fake",
+            id_type="id",
         )
 
         self.assertTrue(a_second_worker._with_id)
@@ -114,6 +106,6 @@ class TestWorkerIDs(unittest.TestCase):
             worker.MappingManagingWorker(
                 foreman,
                 managed_sqla_map=FakeMapping,
-                managed_sqla_map_name='fake',
-                id_type='wrong',
+                managed_sqla_map_name="fake",
+                id_type="wrong",
             )
