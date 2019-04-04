@@ -1,0 +1,14 @@
+[tox]
+envlist = py27, py34, py35, pypy, pypy3, pep8
+
+[testenv]
+deps = pytest
+commands = py.test
+
+[testenv:pep8]
+deps = flake8
+qqcommands = flake8 .
+
+[flake8]
+exclude = .tox,build
+select = E,W,F
