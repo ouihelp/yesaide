@@ -9,7 +9,7 @@ with open(os.path.join(os.path.dirname(__file__), "README.md")) as r_file:
 
 setup(
     name="yesaide",
-    version="1.4.7",
+    version="1.4.8",
     license="MIT",
     author="Ouihelp Tech",
     author_email="tech@ouihelp.fr",
@@ -17,7 +17,7 @@ setup(
     packages=find_packages(),
     test_suite="tests",
     install_requires=[
-        "SQLAlchemy>=1.3,<1.4",
+        "SQLAlchemy>=1.3,<1.5",
         "voluptuous>=0.10.5,<0.12",
         "jwcrypto>=0.6,<0.7",
         "python-dateutil>=2,<3",
