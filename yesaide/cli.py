@@ -13,13 +13,18 @@ def set_filename_version(filename, version_number, pattern):
         - commit: 54688b26a9562c9a9c31541dbf32e0d8ee7a5926
 
     """
+    changed = []
 
     def inject_version(match):
         before, old, after = match.groups()
+        changed.append(True)
         return before + version_number + after
 
     with open(filename) as f:
-        contents = re.sub(r"^(\s*%s\s*=\s*')(.+?)(')(?sm)" % pattern, inject_version, f.read())
+        contents = re.sub(r"""^(\s*%s\s*=\s*")(.+?)(")(?sm)""" % pattern, inject_version, f.read())
+
+    if not changed:
+        raise Exception("Could not find %s in %s", pattern, filename)
 
     with open(filename, "w") as f:
         f.write(contents)
