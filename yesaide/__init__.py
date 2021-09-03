@@ -1,4 +1,4 @@
-__version__ = "1.6.1dev"
+__version__ = "1.6.1"
 
 
 class YesaideRuntimeError(RuntimeError):
