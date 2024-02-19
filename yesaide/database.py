@@ -29,6 +29,13 @@ def db_method(func):
         commit = kwargs.pop("commit", True)
         flush = kwargs.pop("flush", False)
 
+        if flush is True and commit is True:
+            raise Exception(
+                "Passing both `flush=True` AND `commit=True` might not be what you want to do "
+                "- if you just want to flush instead of committing, explicitely pass `commit=False`; "
+                "if you want to commit, no need to flush, you can remove `flush=True`"
+            )
+
         if getattr(self._dbsession, "_ya_in_transaction", False):
             commit = False
 

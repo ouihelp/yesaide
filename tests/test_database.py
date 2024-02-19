@@ -34,18 +34,23 @@ class TestDatabase(unittest.TestCase):
         self.assertTrue(self.dbsession.has_been_committed)
         self.assertFalse(self.dbsession.has_been_flushed)
 
+    def test_db_method_no_simultaneaous_commit_and_flush(self):
+        self.worker.fake_method()
+        # Raises if flush and commit are both True
+        self.assertRaises(Exception)
+
     def test_db_method_with_commit_true(self):
         self.worker.fake_method(commit=True)
         self.assertTrue(self.dbsession.has_been_committed)
 
     def test_db_method_with_commit_false(self):
         self.worker.fake_method(commit=False)
-        self.assertTrue(not self.dbsession.has_been_committed)
+        self.assertFalse(self.dbsession.has_been_committed)
 
     def test_db_method_with_flush_true(self):
-        self.worker.fake_method(flush=True)
+        self.worker.fake_method(flush=True, commit=False)
         self.assertTrue(self.dbsession.has_been_flushed)
 
     def test_db_method_with_flush_false(self):
         self.worker.fake_method(flush=False)
-        self.assertTrue(not self.dbsession.has_been_flushed)
+        self.assertFalse(self.dbsession.has_been_flushed)
