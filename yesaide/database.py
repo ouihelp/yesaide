@@ -27,10 +27,15 @@ def db_method(func):
         # Determine if we'll issue a commit or not. Remove 'commit'
         # from kwargs anyway.
         commit = kwargs.pop("commit", True)
+        flush = kwargs.pop("flush", False)
+
         if getattr(self._dbsession, "_ya_in_transaction", False):
             commit = False
 
         retval = func(self, *args, **kwargs)
+
+        if flush:
+            self._dbsession.flush()
 
         if commit:
             self._dbsession.commit()
