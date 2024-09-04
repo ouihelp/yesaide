@@ -23,7 +23,7 @@ def is_valid_uuid(value):
     return maybe_value.hex == value.replace("-", "").replace(" ", "")
 
 
-_mail_regexp = re.compile("[^@]+@[^@]+\.[^@]+")
+_mail_regexp = re.compile(r"[^@]+@[^@]+\.[^@]+")
 
 
 def is_valid_mail(raw_mail):

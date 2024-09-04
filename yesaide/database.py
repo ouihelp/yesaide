@@ -1,7 +1,7 @@
 import uuid
 
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.types import TypeDecorator, CHAR
+from sqlalchemy.types import CHAR, TypeDecorator
 
 
 class MetaBase(object):
@@ -13,6 +13,8 @@ class MetaBase(object):
             ...
 
     """
+
+    __allow_unmapped__ = True
 
 
 def db_method(func):
@@ -72,5 +74,7 @@ class GUIDType(TypeDecorator):
 
     def process_result_value(self, value, dialect):
         if value is not None:
+            if isinstance(value, uuid.UUID):
+                return value
             return uuid.UUID(value)
         return None
